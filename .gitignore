@@ -1,0 +1,26 @@
+# Compiled
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+nbproject/
+nb-configuration.xml
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Secrets (будем использовать позже)
+application-secrets.yml
+*.key
+*.pem
+
+# Uploaded images (если будем хранить локально)
+uploads/
