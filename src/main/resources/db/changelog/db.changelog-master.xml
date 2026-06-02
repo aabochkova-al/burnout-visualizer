@@ -34,5 +34,54 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
             </column>
         </createTable>
     </changeSet>
+        <changeSet id="2" author="aleksandra">
+        <createTable tableName="generation_requests">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_generation_requests_user" references="users(id)"/>
+            </column>
+            <column name="fatigue_level" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stress_duration" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coffee_amount" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="visual_style" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(20)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="aleksandra">
+        <createTable tableName="images">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="request_id" type="BIGINT">
+                <constraints nullable="false" unique="true" foreignKeyName="fk_images_request" references="generation_requests(id)"/>
+            </column>
+            <column name="file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_url" type="VARCHAR(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_favorite" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
 
