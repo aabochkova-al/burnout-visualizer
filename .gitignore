@@ -24,3 +24,4 @@ application-secrets.yml
 
 # Uploaded images
 uploads/
+application-secrets.yml
