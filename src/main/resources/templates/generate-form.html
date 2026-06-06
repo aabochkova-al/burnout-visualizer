@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Генерация изображения</title>
+</head>
+<body>
+    <h2>Создать индикатор выгорания</h2>
+    <form th:action="@{/generate}" th:object="${requestDto}" method="post">
+        <div>
+            <label>Уровень усталости (1-10):</label>
+            <input type="number" th:field="*{fatigueLevel}" min="1" max="10" step="1"/>
+            <span th:if="${#fields.hasErrors('fatigueLevel')}" th:errors="*{fatigueLevel}" style="color:red"></span>
+        </div>
+        <div>
+            <label>Длительность напряжённого периода (дней):</label>
+            <input type="number" th:field="*{stressDuration}" min="1"/>
+            <span th:if="${#fields.hasErrors('stressDuration')}" th:errors="*{stressDuration}" style="color:red"></span>
+        </div>
+        <div>
+            <label>Количество кофе (чашек в день):</label>
+            <input type="number" th:field="*{coffeeAmount}" min="0"/>
+            <span th:if="${#fields.hasErrors('coffeeAmount')}" th:errors="*{coffeeAmount}" style="color:red"></span>
+        </div>
+        <div>
+            <label>Стиль визуализации:</label>
+            <select th:field="*{visualStyle}">
+                <option value="ABSTRACT">Абстрактный</option>
+                <option value="COMIC">Комикс</option>
+                <option value="MINIMALISTIC">Минималистичный</option>
+            </select>
+        </div>
+        <div th:if="${error}" style="color:red" th:text="${error}"></div>
+        <div th:if="${param.success}" style="color:green">Готово! Изображение сохранено.</div>
+        <button type="submit">Сгенерировать</button>
+    </form>
+    <a href="/dashboard">На дашборд</a>
+</body>
+</html>

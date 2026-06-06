@@ -44,6 +44,9 @@ public class GenerationRequest {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    @OneToOne(mappedBy = "generationRequest", fetch = FetchType.LAZY)
+    private Image image;
+    
     public GenerationRequest() {}
 
     public GenerationRequest(User user, Integer fatigueLevel, Integer stressDuration,
@@ -74,4 +77,6 @@ public class GenerationRequest {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Image getImage() { return image; }
+    public void setImage(Image image) { this.image = image; }
 }

@@ -7,11 +7,14 @@ package com.burnout.visualizer.repository;
 import com.burnout.visualizer.entity.Image;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
  * @author aleksandra
  */
 public interface ImageRepository extends JpaRepository<Image, Long> {
-    List<Image> findByGenerationRequest_User_IdAndIsFavoriteTrue(Long userId);
+    @Query("SELECT i FROM Image i WHERE i.generationRequest.user.id = :userId AND i.isFavorite = true")
+    List<Image> findAllFavoritesByUserId(@Param("userId") Long userId);
 }

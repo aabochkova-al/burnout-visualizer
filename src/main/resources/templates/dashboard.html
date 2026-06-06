@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Дашборд - Мой уровень выгорания</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .card { border: 1px solid #ccc; margin: 10px; padding: 10px; display: inline-block; width: 200px; }
+            img { max-width: 100%; height: auto; }
+            .favorite { color: gold; }
+        </style>
+    </head>
+    <body>
+        <h2>Создать индикатор выгорания</h2>
+        <form th:action="@{/generate}" th:object="${requestDto}" method="post">
+            <div>
+                <label>Уровень усталости (1-10):</label>
+                <input type="number" th:field="*{fatigueLevel}" min="1" max="10"/>
+                <span th:if="${#fields.hasErrors('fatigueLevel')}" th:errors="*{fatigueLevel}" style="color:red"></span>
+            </div>
+            <div>
+                <label>Длительность напряжённого периода (дней):</label>
+                <input type="number" th:field="*{stressDuration}" min="1"/>
+            </div>
+            <div>
+                <label>Количество кофе (чашек в день):</label>
+                <input type="number" th:field="*{coffeeAmount}" min="0"/>
+            </div>
+            <div>
+                <label>Стиль визуализации:</label>
+                <select th:field="*{visualStyle}">
+                    <option value="ABSTRACT">Абстрактный</option>
+                    <option value="COMIC">Комикс</option>
+                    <option value="MINIMALISTIC">Минималистичный</option>
+                </select>
+            </div>
+            <div th:if="${error}" style="color:red" th:text="${error}"></div>
+            <div th:if="${param.success}" style="color:green">Генерация запущена! Обновите страницу для просмотра результата.</div>
+            <button type="submit">Сгенерировать</button>
+        </form>
+
+        <hr/>
+
+        <h3>История запросов</h3>
+        <div th:each="req : ${history}" class="card">
+            <p>Усталость: <span th:text="${req.fatigueLevel}"/> / 10</p>
+            <p>Кофе: <span th:text="${req.coffeeAmount}"/> чашек</p>
+            <p>Статус: <span th:text="${req.status}" th:classappend="${req.status == 'SUCCESS'} ? 'success' : 'pending'"/></p>
+
+            <div th:if="${req.status == 'SUCCESS' and req.image != null}">
+                <img th:src="${req.image.fileUrl}" width="150" alt="Индикатор выгорания"/>
+                <form th:action="@{/favorite/{id}(id=${req.image.id})}" method="post" style="display:inline;">
+                    <button type="submit" th:class="${req.image.isFavorite} ? 'favorite' : ''">&#9733;</button>
+                </form>
+            </div>
+        </div>
+
+        <h3>Избранное</h3>
+        <div th:each="img : ${favorites}" class="card">
+            <img th:src="${img.fileUrl}" width="150"/>
+            <form th:action="@{/favorite/{id}(id=${img.id})}" method="post">
+                <button type="submit">Убрать из избранного</button>
+            </form>
+        </div>
+
+        <br/>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Выйти</button>
+        </form>
+    </body>
+</html>
