@@ -6,23 +6,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Вход</title>
+        <title>Вход - Мой уровень выгорания</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/styles.css}">
     </head>
     <body>
-        <h2>Вход</h2>
-        <form th:action="@{/login}" method="post">
-            <div>
-                <label>Имя пользователя:</label>
-                <input type="text" name="username" />
-            </div>
-            <div>
-                <label>Пароль:</label>
-                <input type="password" name="password" />
-            </div>
-            <div th:if="${param.error}" style="color:red">Неверное имя пользователя или пароль</div>
-            <div th:if="${param.registered}" style="color:green">Регистрация прошла успешно. Войдите.</div>
-            <button type="submit">Войти</button>
-        </form>
-        <a href="/register">Нет аккаунта? Зарегистрируйтесь</a>
+    <div class="container">
+        <div class="panel" style="max-width: 460px; margin: 100px auto;">
+            <div class="panel-title">Вход в систему</div>
+            <div class="panel-sub">Введите ваши данные</div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="field-group">
+                    <label>Имя пользователя</label>
+                    <input type="text" name="username" required autofocus>
+                </div>
+                <div class="field-group">
+                    <label>Пароль</label>
+                    <input type="password" name="password" required>
+                </div>
+
+                <div th:if="${param.error}" class="alert-error">Неверное имя пользователя или пароль</div>
+                <div th:if="${param.registered}" class="alert-success">Регистрация прошла успешно! Теперь войдите.</div>
+
+                <div style="margin-top: 1.8rem;">
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <a href="/register" style="text-decoration: none;">
+                        <button type="button" class="btn btn-outline">Регистрация</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
     </body>
 </html>

@@ -5,30 +5,41 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 -->
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Регистрация</title>
         <meta charset="UTF-8">
+        <title>Регистрация - Мой уровень выгорания</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/styles.css}">
     </head>
     <body>
-        <h2>Регистрация</h2>
-        <form th:action="@{/register}" th:object="${user}" method="post">
-            <div>
-                <label>Имя пользователя:</label>
-                <input type="text" th:field="*{username}" />
-                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red"></span>
-            </div>
-            <div>
-                <label>Email:</label>
-                <input type="email" th:field="*{email}" />
-                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></span>
-            </div>
-            <div>
-                <label>Пароль:</label>
-                <input type="password" th:field="*{password}" />
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></span>
-            </div>
-            <div th:if="${error}" style="color:red" th:text="${error}"></div>
-            <button type="submit">Зарегистрироваться</button>
-        </form>
-        <a href="/login">Уже есть аккаунт? Войти</a>
+    <div class="container">
+        <div class="panel" style="max-width: 460px; margin: 80px auto;">
+            <div class="panel-title">Создать аккаунт</div>
+            <div class="panel-sub">Заполните форму регистрации</div>
+
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <div class="field-group">
+                    <label>Имя пользователя</label>
+                    <input type="text" th:field="*{username}" required>
+                </div>
+                <div class="field-group">
+                    <label>Email</label>
+                    <input type="email" th:field="*{email}" required>
+                </div>
+                <div class="field-group">
+                    <label>Пароль</label>
+                    <input type="password" th:field="*{password}" required>
+                </div>
+
+                <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+                <div style="margin-top: 1.8rem;">
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <a href="/login" style="text-decoration: none;">
+                        <button type="button" class="btn btn-outline">Уже есть аккаунт?</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
     </body>
 </html>
