@@ -57,7 +57,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
 
                 <div th:if="${error}" class="alert-error" th:text="${error}"></div>
-                <div th:if="${param.success}" class="alert-success">Изображение успешно сгенерировано!</div>
+                <div th:if="${param.success}" class="alert-success">Запрос принят, генерация началась. Статус можно отслеживать в истории.</div>
 
                 <div class="generate-btn-container">
                     <button type="submit" class="btn btn-primary" style="font-size: 1.2rem; padding: 16px 40px;">
@@ -114,6 +114,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </div>
     </div>
+    <script>
+        function hasPendingStatus() {
+            var statusElements = document.querySelectorAll('.status');
+            for (var i = 0; i < statusElements.length; i++) {
+                if (statusElements[i].textContent.trim() === 'PENDING') {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (hasPendingStatus()) {
+            setTimeout(function() {
+                location.reload();
+            }, 5000); // 5 секунд
+        }
+    </script>
         
     </body>
 </html>

@@ -67,12 +67,18 @@ public class DashboardController {
         }
         User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
         try {
-            generationService.generateImage(user.getId(), dto);
-        } catch (Exception e) {
+            generationService.checkRateLimit(user.getId());
+        } catch (RuntimeException e) {
             model.addAttribute("error", e.getMessage());
+            List<GenerationRequest> history = requestRepository.findByUserOrderByCreatedAtDesc(user);
+            List<Image> favorites = imageRepository.findAllFavoritesByUserId(user.getId());
+            model.addAttribute("history", history);
+            model.addAttribute("favorites", favorites);
             return "dashboard";
         }
-        return "redirect:/dashboard?success";
+        GenerationRequest request = generationService.createPendingRequest(user.getId(), dto);
+        generationService.generateImageAsync(request, dto);
+        return "redirect:/dashboard";
     }
     
 }

@@ -6,6 +6,7 @@ package com.burnout.visualizer.repository;
 
 import com.burnout.visualizer.entity.GenerationRequest;
 import com.burnout.visualizer.entity.User;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface GenerationRequestRepository extends JpaRepository<GenerationRequest, Long>{
     List<GenerationRequest> findByUserOrderByCreatedAtDesc(User user);
+    long countByUserIdAndCreatedAtAfter(Long userId, LocalDateTime dateTime);
 }
