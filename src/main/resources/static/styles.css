@@ -47,7 +47,7 @@ body {
     color: transparent;
 }
 
-/* Panels */
+/* Панели (для всех страниц) */
 .panel {
     background: rgba(255,255,255,0.95);
     color: #1e2937;
@@ -69,7 +69,7 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Forms */
+/* Формы */
 .form-row {
     display: flex;
     flex-wrap: wrap;
@@ -106,7 +106,7 @@ input:focus, select:focus {
     outline: none;
 }
 
-/* Buttons */
+/* Кнопки */
 .btn {
     padding: 12px 24px;
     border: none;
@@ -120,9 +120,7 @@ input:focus, select:focus {
     margin-right: 12px;
 }
 
-.btn:last-child {
-    margin-right: 0;
-}
+.btn:last-child { margin-right: 0; }
 
 .btn-primary {
     background: #22d3ee;
@@ -161,6 +159,27 @@ input:focus, select:focus {
 .btn-logout:hover {
     background: #dc2626;
     transform: translateY(-2px);
+}
+
+select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2333476f' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.025 2.345 4 3.204 4h9.592c.86 0 1.32 1.025.753 1.658L8.753 11.14a.5.5 0 0 1-.706 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px;
+}
+
+select:focus {
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15);
+    outline: none;
 }
 
 /* Cards */
@@ -214,6 +233,7 @@ input:focus, select:focus {
 .alert-error { background: #fee2e2; color: #b91c1c; }
 .alert-success { background: #d1fae5; color: #0f766e; }
 
+/* Центрирование кнопки генерации */
 .generate-btn-container {
     text-align: center;
     margin-top: 2rem;
