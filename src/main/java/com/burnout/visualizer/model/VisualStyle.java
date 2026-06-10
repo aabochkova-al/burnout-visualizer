@@ -14,6 +14,9 @@ public enum VisualStyle {
     MINIMALISTIC;
     
     public static VisualStyle fromString(String value) {
+        if (value == null) {
+            return ABSTRACT;
+        }
         try {
             return VisualStyle.valueOf(value.toUpperCase());
         } catch (IllegalArgumentException e) {
