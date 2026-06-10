@@ -4,8 +4,7 @@
  */
 package com.burnout.visualizer.controller;
 
-import com.burnout.visualizer.entity.Image;
-import com.burnout.visualizer.repository.ImageRepository;
+import com.burnout.visualizer.service.ImageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,16 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class FavoriteController {
     
-    private final ImageRepository imageRepository;
-    public FavoriteController(ImageRepository imageRepository) {
-        this.imageRepository = imageRepository;
+    private final ImageService imageService;
+
+    public FavoriteController(ImageService imageService) {
+        this.imageService = imageService;
     }
-    
+
     @PostMapping("/favorite/{id}")
     public String toggleFavorite(@PathVariable Long id) {
-        Image image = imageRepository.findById(id).orElseThrow();
-        image.setIsFavorite(!image.getIsFavorite());
-        imageRepository.save(image);
+        imageService.toggleFavorite(id);
         return "redirect:/dashboard";
     }
 }

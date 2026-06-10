@@ -26,6 +26,11 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
     
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
+    }
+    
     @Transactional
     public void registerNewUser(UserRegistrationDto registrationDto) {
         if (userRepository.existsByUsername(registrationDto.getUsername())) {

@@ -68,37 +68,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </div>
 
         <!-- История запросов -->
-        <div class="panel">
-               <div class="panel-title">История запросов</div>
-               <div class="grid-cards">
-                   <div th:each="req : ${history}" class="card-item">
-                       <p><strong>Усталость:</strong> <span th:text="${req.fatigueLevel}"/> / 10</p>
-                       <p><strong>Период:</strong> <span th:text="${req.stressDuration}"/> дней</p>
-                       <p><strong>Кофе:</strong> <span th:text="${req.coffeeAmount}"/> чашек</p>
-                       <p><strong>Статус:</strong> 
-                           <span th:text="${req.status}" th:class="'status ' + ${req.status}"></span>
-                       </p>
-
-                       <div th:if="${req.image != null}">
-                           <a th:href="${req.image.fileUrl}" target="_blank" rel="noopener">
-                               <img th:src="${req.image.fileUrl}" alt="Результат" style="max-height: 220px;">
-                           </a>
-                           <form th:action="@{/favorite/{id}(id=${req.image.id})}" method="post" style="display:inline; margin-left: 8px;">
-                               <button type="submit" class="favorite-star" 
-                                       th:classappend="${req.image.isFavorite} ? 'active' : ''">★</button>
-                           </form>
-                       </div>
-                       <!-- Кнопка повторить -->
-                       <form th:action="@{/generate}" method="post" style="margin-top: 12px;">
-                           <input type="hidden" name="fatigueLevel" th:value="${req.fatigueLevel}"/>
-                           <input type="hidden" name="stressDuration" th:value="${req.stressDuration}"/>
-                           <input type="hidden" name="coffeeAmount" th:value="${req.coffeeAmount}"/>
-                           <input type="hidden" name="visualStyle" th:value="${req.visualStyle}"/>
-                           <button type="submit" class="btn btn-secondary">Повторить запрос</button>
-                       </form>
-                   </div>
-               </div>
-           </div>
+        <div class="panel" id="history-container">
+            <div th:replace="fragments/history :: historyList"></div>
+        </div>
 
         <!-- Избранное -->
         <div class="panel">
@@ -115,19 +87,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </div>
     </div>
     <script>
-        function hasPendingStatus() {
-            var statusElements = document.querySelectorAll('.status');
-            for (var i = 0; i < statusElements.length; i++) {
-                if (statusElements[i].textContent.trim() === 'PENDING') {
-                    return true;
-                }
-            }
-            return false;
+        function updateHistory() {
+            fetch('/dashboard/history')
+                .then(response => response.text())
+                .then(html => {
+                    const container = document.getElementById('history-container');
+                    if (container) {
+                        container.innerHTML = html;
+                    }
+                    if (document.querySelectorAll('.status.PENDING').length > 0) {
+                        setTimeout(updateHistory, 3000);
+                    }
+                })
+                .catch(err => console.error('Ошибка обновления истории:', err));
         }
-        if (hasPendingStatus()) {
-            setTimeout(function() {
-                location.reload();
-            }, 5000); // 5 секунд
+
+        if (document.querySelectorAll('.status.PENDING').length > 0) {
+            setTimeout(updateHistory, 3000);
         }
     </script>
         

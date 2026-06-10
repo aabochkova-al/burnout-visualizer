@@ -6,6 +6,7 @@ package com.burnout.visualizer.repository;
 
 import com.burnout.visualizer.entity.GenerationRequest;
 import com.burnout.visualizer.entity.User;
+import com.burnout.visualizer.model.RequestStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +47,7 @@ public class GenerationRequestRepositoryTest {
         old.setStressDuration(10);
         old.setCoffeeAmount(2);
         old.setVisualStyle("ABSTRACT");
-        old.setStatus("PENDING");
+        old.setStatus(RequestStatus.PENDING);
         old.setCreatedAt(LocalDateTime.now().minusDays(1));
         entityManager.persist(old);
         
@@ -56,7 +57,7 @@ public class GenerationRequestRepositoryTest {
         recent.setStressDuration(20);
         recent.setCoffeeAmount(3);
         recent.setVisualStyle("COMIC");
-        recent.setStatus("SUCCESS");
+        recent.setStatus(RequestStatus.SUCCESS);
         recent.setCreatedAt(LocalDateTime.now());
         entityManager.persist(recent);
         entityManager.flush();
@@ -74,7 +75,7 @@ public class GenerationRequestRepositoryTest {
         oldReq.setStressDuration(1);
         oldReq.setCoffeeAmount(1);
         oldReq.setVisualStyle("ABSTRACT");
-        oldReq.setStatus("PENDING");
+        oldReq.setStatus(RequestStatus.PENDING);
         oldReq.setCreatedAt(LocalDateTime.now().minusHours(2));
         entityManager.persistAndFlush(oldReq);
         
@@ -84,7 +85,7 @@ public class GenerationRequestRepositoryTest {
         newReq.setStressDuration(2);
         newReq.setCoffeeAmount(2);
         newReq.setVisualStyle("COMIC");
-        newReq.setStatus("PENDING");
+        newReq.setStatus(RequestStatus.PENDING);
         newReq.setCreatedAt(LocalDateTime.now().minusMinutes(10));
         entityManager.persistAndFlush(newReq);
         

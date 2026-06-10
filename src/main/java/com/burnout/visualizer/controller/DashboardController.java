@@ -12,6 +12,7 @@ import com.burnout.visualizer.repository.GenerationRequestRepository;
 import com.burnout.visualizer.repository.ImageRepository;
 import com.burnout.visualizer.repository.UserRepository;
 import com.burnout.visualizer.service.GenerationService;
+import com.burnout.visualizer.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,51 +30,46 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class DashboardController {
-    
     private final GenerationService generationService;
-    private final UserRepository userRepository;
-    private final GenerationRequestRepository requestRepository;
-    private final ImageRepository imageRepository;
-    
-    
+    private final UserService userService;
+
     public DashboardController(GenerationService generationService,
-                               UserRepository userRepository,
-                               GenerationRequestRepository requestRepository,
-                               ImageRepository imageRepository) {
+                               UserService userService) {
         this.generationService = generationService;
-        this.userRepository = userRepository;
-        this.requestRepository = requestRepository;
-        this.imageRepository = imageRepository;
+        this.userService = userService;
     }
-    
+
     @GetMapping("/dashboard")
     public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
-        List<GenerationRequest> history = requestRepository.findByUserOrderByCreatedAtDesc(user);
-        List<Image> favorites = imageRepository.findAllFavoritesByUserId(user.getId());
+        User user = userService.findByUsername(userDetails.getUsername());
         model.addAttribute("requestDto", new GenerationRequestDto());
-        model.addAttribute("history", history);
-        model.addAttribute("favorites", favorites);
+        model.addAttribute("history", generationService.getUserHistory(user.getId()));
+        model.addAttribute("favorites", generationService.getUserFavorites(user.getId()));
         return "dashboard";
     }
-    
+
+    @GetMapping("/dashboard/history")
+    public String getHistoryFragment(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        User user = userService.findByUsername(userDetails.getUsername());
+        model.addAttribute("history", generationService.getUserHistory(user.getId()));
+        return "fragments/history :: historyList";
+    }
+
     @PostMapping("/generate")
-    public String generate(@Valid @ModelAttribute("requestDto") GenerationRequestDto dto,
+    public String generate(@Valid @ModelAttribute GenerationRequestDto dto,
                            BindingResult result,
                            @AuthenticationPrincipal UserDetails userDetails,
                            Model model) {
         if (result.hasErrors()) {
             return "dashboard";
         }
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
+        User user = userService.findByUsername(userDetails.getUsername());
         try {
             generationService.checkRateLimit(user.getId());
         } catch (RuntimeException e) {
             model.addAttribute("error", e.getMessage());
-            List<GenerationRequest> history = requestRepository.findByUserOrderByCreatedAtDesc(user);
-            List<Image> favorites = imageRepository.findAllFavoritesByUserId(user.getId());
-            model.addAttribute("history", history);
-            model.addAttribute("favorites", favorites);
+            model.addAttribute("history", generationService.getUserHistory(user.getId()));
+            model.addAttribute("favorites", generationService.getUserFavorites(user.getId()));
             return "dashboard";
         }
         GenerationRequest request = generationService.createPendingRequest(user.getId(), dto);
