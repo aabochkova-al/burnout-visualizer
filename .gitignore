@@ -16,12 +16,12 @@ nb-configuration.xml
 
 # OS
 .DS_Store
+**/.DS_Store
 
-# Secrets (будем использовать позже)
+# Secrets
 application-secrets.yml
 *.key
 *.pem
 
-# Uploaded images (если будем хранить локально)
+# Uploaded images
 uploads/
-**/.DS_Store
