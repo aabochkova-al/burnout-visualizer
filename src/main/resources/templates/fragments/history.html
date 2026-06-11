@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="historyList">
+            <div class="panel-title">История запросов</div>
+            <div class="grid-cards">
+                <div th:each="req : ${history}" class="card-item">
+                    <p><strong>Усталость:</strong> <span th:text="${req.fatigueLevel}"/> / 10</p>
+                    <p><strong>Период:</strong> <span th:text="${req.stressDuration}"/> дней</p>
+                    <p><strong>Кофе:</strong> <span th:text="${req.coffeeAmount}"/> чашек</p>
+                    <p><strong>Статус:</strong> 
+                        <span th:text="${req.status}" th:class="'status ' + ${req.status}"></span>
+                    </p>
+                    <div th:if="${req.image != null}">
+                        <a th:href="${req.image.fileUrl}" target="_blank" rel="noopener">
+                            <img th:src="${req.image.fileUrl}" alt="Результат" style="max-height: 220px;">
+                        </a>
+                        <form th:action="@{/favorite/{id}(id=${req.image.id})}" method="post" style="display:inline; margin-left: 8px;">
+                            <button type="submit" class="favorite-star" 
+                                    th:classappend="${req.image.isFavorite} ? 'active' : ''">★</button>
+                        </form>
+                    </div>
+                    <form th:action="@{/generate}" method="post" style="margin-top: 12px;">
+                        <input type="hidden" name="fatigueLevel" th:value="${req.fatigueLevel}"/>
+                        <input type="hidden" name="stressDuration" th:value="${req.stressDuration}"/>
+                        <input type="hidden" name="coffeeAmount" th:value="${req.coffeeAmount}"/>
+                        <input type="hidden" name="visualStyle" th:value="${req.visualStyle}"/>
+                        <button type="submit" class="btn btn-secondary">Повторить запрос</button>
+                    </form>
+                </div>
+            </div>
+            <div th:if="${#lists.isEmpty(history)}" style="color:#6c757d; padding: 1rem;">История пуста. Создайте первый запрос.</div>
+        </div>
+    </body>
+</html>

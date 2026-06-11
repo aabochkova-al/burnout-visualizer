@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Регистрация - Мой уровень выгорания</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/styles.css}">
+    </head>
+    <body>
+    <div class="container">
+        <div class="panel" style="max-width: 460px; margin: 80px auto;">
+            <div class="panel-title">Создать аккаунт</div>
+            <div class="panel-sub">Заполните форму регистрации</div>
+
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <div class="field-group">
+                    <label>Имя пользователя</label>
+                    <input type="text" th:field="*{username}" required>
+                </div>
+                <div class="field-group">
+                    <label>Email</label>
+                    <input type="email" th:field="*{email}" required>
+                </div>
+                <div class="field-group">
+                    <label>Пароль</label>
+                    <input type="password" th:field="*{password}" required>
+                </div>
+
+                <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+                <div style="margin-top: 1.8rem;">
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <a href="/login" style="text-decoration: none;">
+                        <button type="button" class="btn btn-outline">Уже есть аккаунт?</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    </body>
+</html>

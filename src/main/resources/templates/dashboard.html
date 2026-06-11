@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Дашборд - Мой уровень выгорания</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" th:href="@{/styles.css}">
+    </head>
+    <body>
+    <div class="container">
+        <div class="app-header">
+            <h1>Мой уровень выгорания</h1>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-logout">Выйти</button>
+            </form>
+        </div>
+
+        <!-- Форма генерации -->
+        <div class="panel">
+            <div class="panel-title">Создать индикатор выгорания</div>
+            <div class="panel-sub">Параметры вашего текущего состояния</div>
+
+            <form th:action="@{/generate}" th:object="${requestDto}" method="post">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="field-group">
+                            <label>Уровень усталости (1-10)</label>
+                            <input type="number" th:field="*{fatigueLevel}" min="1" max="10"/>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="field-group">
+                            <label>Длительность (дней)</label>
+                            <input type="number" th:field="*{stressDuration}" min="1"/>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="field-group">
+                            <label>Кофе в день</label>
+                            <input type="number" th:field="*{coffeeAmount}" min="0"/>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="field-group">
+                            <label>Стиль визуализации</label>
+                            <select th:field="*{visualStyle}">
+                                <option value="ABSTRACT">Абстрактный</option>
+                                <option value="COMIC">Комикс</option>
+                                <option value="MINIMALISTIC">Минималистичный</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+                <div th:if="${param.success}" class="alert-success">Запрос принят, генерация началась. Статус можно отслеживать в истории.</div>
+
+                <div class="generate-btn-container">
+                    <button type="submit" class="btn btn-primary" style="font-size: 1.2rem; padding: 16px 40px;">
+                        Сгенерировать образ
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- История запросов -->
+        <div class="panel" id="history-container">
+            <div th:replace="fragments/history :: historyList"></div>
+        </div>
+
+        <!-- Избранное -->
+        <div class="panel">
+            <div class="panel-title">⭐ Избранное</div>
+            <div class="grid-cards">
+                <div th:each="img : ${favorites}" class="card-item">
+                    <img th:src="${img.fileUrl}" alt="Избранное">
+                    <p><strong>Файл:</strong> <span th:text="${img.fileName}"/></p>
+                    <form th:action="@{/favorite/{id}(id=${img.id})}" method="post">
+                        <button type="submit" class="btn btn-danger">Убрать из избранного</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateHistory() {
+            fetch('/dashboard/history')
+                .then(response => response.text())
+                .then(html => {
+                    const container = document.getElementById('history-container');
+                    if (container) {
+                        container.innerHTML = html;
+                    }
+                    if (document.querySelectorAll('.status.PENDING').length > 0) {
+                        setTimeout(updateHistory, 3000);
+                    }
+                })
+                .catch(err => console.error('Ошибка обновления истории:', err));
+        }
+
+        if (document.querySelectorAll('.status.PENDING').length > 0) {
+            setTimeout(updateHistory, 3000);
+        }
+    </script>
+        
+    </body>
+</html>

@@ -1,0 +1,240 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 9 июн. 2026 г., 13:57:49
+    Author     : aleksandra
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%);
+    min-height: 100vh;
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 9999px;
+    backdrop-filter: blur(10px);
+}
+
+.app-header h1 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #67e8f9, #22d3ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Панели (для всех страниц) */
+.panel {
+    background: rgba(255,255,255,0.95);
+    color: #1e2937;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.panel-title {
+    font-size: 1.65rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #0f172a;
+}
+
+.panel-sub {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+}
+
+/* Формы */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    align-items: end;
+    justify-content: center;
+}
+
+.form-col {
+    flex: 1;
+    min-width: 160px;
+}
+
+.field-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #334155;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    background-color: white;
+}
+
+input:focus, select:focus {
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15);
+    outline: none;
+}
+
+/* Кнопки */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 12px;
+}
+
+.btn:last-child { margin-right: 0; }
+
+.btn-primary {
+    background: #22d3ee;
+    color: #0f172a;
+    font-size: 1.05rem;
+}
+
+.btn-primary:hover {
+    background: #67e8f9;
+    transform: translateY(-2px);
+}
+
+.btn-secondary, .btn-outline {
+    background: #64748b;
+    color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #64748b;
+    color: #64748b;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-logout {
+    background: #ef4444;
+    color: white;
+    font-weight: 600;
+    padding: 10px 22px;
+}
+
+.btn-logout:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2333476f' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.025 2.345 4 3.204 4h9.592c.86 0 1.32 1.025.753 1.658L8.753 11.14a.5.5 0 0 1-.706 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px;
+}
+
+select:focus {
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15);
+    outline: none;
+}
+
+/* Cards */
+.grid-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.card-item {
+    background: white;
+    border-radius: 18px;
+    padding: 1.25rem;
+    width: 280px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+}
+
+.card-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.card-item img {
+    width: 100%;
+    border-radius: 14px;
+    margin: 12px 0;
+}
+
+/* Status */
+.status {
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+}
+
+.status.SUCCESS { background: #a7f3d0; color: #0f766e; }
+.status.ERROR   { background: #fecaca; color: #b91c1c; }
+.status.PENDING { background: #fed7aa; color: #c2410c; }
+
+/* Alerts */
+.alert-error, .alert-success {
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.alert-error { background: #fee2e2; color: #b91c1c; }
+.alert-success { background: #d1fae5; color: #0f766e; }
+
+/* Центрирование кнопки генерации */
+.generate-btn-container {
+    text-align: center;
+    margin-top: 2rem;
+}
