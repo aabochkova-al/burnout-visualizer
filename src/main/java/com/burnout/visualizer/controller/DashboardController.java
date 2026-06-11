@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -40,11 +41,27 @@ public class DashboardController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String dashboard(
+            Model model, 
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false) Integer fatigueLevel,
+            @RequestParam(required = false) Integer stressDuration,
+            @RequestParam(required = false) Integer coffeeAmount,
+            @RequestParam(required = false) String visualStyle) {
+
         User user = userService.findByUsername(userDetails.getUsername());
-        model.addAttribute("requestDto", new GenerationRequestDto());
+
+        GenerationRequestDto dto = new GenerationRequestDto();
+
+        if (fatigueLevel != null) dto.setFatigueLevel(fatigueLevel);
+        if (stressDuration != null) dto.setStressDuration(stressDuration);
+        if (coffeeAmount != null) dto.setCoffeeAmount(coffeeAmount);
+        if (visualStyle != null) dto.setVisualStyle(visualStyle);
+
+        model.addAttribute("requestDto", dto);
         model.addAttribute("history", generationService.getUserHistory(user.getId()));
         model.addAttribute("favorites", generationService.getUserFavorites(user.getId()));
+
         return "dashboard";
     }
 
