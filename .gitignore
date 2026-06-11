@@ -16,6 +16,7 @@ nb-configuration.xml
 
 # OS
 .DS_Store
+**/.DS_Store
 
 # Secrets
 application-secrets.yml
@@ -24,8 +25,3 @@ application-secrets.yml
 
 # Uploaded images
 uploads/
-application-secrets.yml
-.DS_Store
-**/.DS_Store
-.DS_Store
-**/.DS_Store
