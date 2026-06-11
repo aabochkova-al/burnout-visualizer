@@ -24,3 +24,4 @@ application-secrets.yml
 
 # Uploaded images (если будем хранить локально)
 uploads/
+**/.DS_Store
