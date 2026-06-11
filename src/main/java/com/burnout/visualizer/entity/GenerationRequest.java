@@ -5,6 +5,7 @@
 package com.burnout.visualizer.entity;
 
 import com.burnout.visualizer.model.RequestStatus;
+import com.burnout.visualizer.model.VisualStyle;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -33,8 +34,9 @@ public class GenerationRequest {
     @Column(name = "coffee_amount", nullable = false)
     private Integer coffeeAmount;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "visual_style", nullable = false)
-    private String visualStyle;
+    private VisualStyle visualStyle;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -52,7 +54,7 @@ public class GenerationRequest {
     public GenerationRequest() {}
 
     public GenerationRequest(User user, Integer fatigueLevel, Integer stressDuration,
-                             Integer coffeeAmount, String visualStyle, RequestStatus status) {
+                             Integer coffeeAmount, VisualStyle visualStyle, RequestStatus status) {
         this.user = user;
         this.fatigueLevel = fatigueLevel;
         this.stressDuration = stressDuration;
@@ -71,8 +73,8 @@ public class GenerationRequest {
     public void setStressDuration(Integer stressDuration) { this.stressDuration = stressDuration; }
     public Integer getCoffeeAmount() { return coffeeAmount; }
     public void setCoffeeAmount(Integer coffeeAmount) { this.coffeeAmount = coffeeAmount; }
-    public String getVisualStyle() { return visualStyle; }
-    public void setVisualStyle(String visualStyle) { this.visualStyle = visualStyle; }
+    public VisualStyle getVisualStyle() { return visualStyle; }
+    public void setVisualStyle(VisualStyle visualStyle) { this.visualStyle = visualStyle; }
     public RequestStatus getStatus() { return status; }
     public void setStatus(RequestStatus status) { this.status = status; }
     public LocalDateTime getCreatedAt() { return createdAt; }

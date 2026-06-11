@@ -7,6 +7,7 @@ package com.burnout.visualizer.repository;
 import com.burnout.visualizer.entity.GenerationRequest;
 import com.burnout.visualizer.entity.User;
 import com.burnout.visualizer.model.RequestStatus;
+import com.burnout.visualizer.model.VisualStyle;
 import java.time.LocalDateTime;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +47,7 @@ public class GenerationRequestRepositoryTest {
         old.setFatigueLevel(5);
         old.setStressDuration(10);
         old.setCoffeeAmount(2);
-        old.setVisualStyle("ABSTRACT");
+        old.setVisualStyle(VisualStyle.ABSTRACT);
         old.setStatus(RequestStatus.PENDING);
         old.setCreatedAt(LocalDateTime.now().minusDays(1));
         entityManager.persist(old);
@@ -56,7 +57,7 @@ public class GenerationRequestRepositoryTest {
         recent.setFatigueLevel(7);
         recent.setStressDuration(20);
         recent.setCoffeeAmount(3);
-        recent.setVisualStyle("COMIC");
+        recent.setVisualStyle(VisualStyle.COMIC);
         recent.setStatus(RequestStatus.SUCCESS);
         recent.setCreatedAt(LocalDateTime.now());
         entityManager.persist(recent);
@@ -74,7 +75,7 @@ public class GenerationRequestRepositoryTest {
         oldReq.setFatigueLevel(1);
         oldReq.setStressDuration(1);
         oldReq.setCoffeeAmount(1);
-        oldReq.setVisualStyle("ABSTRACT");
+        oldReq.setVisualStyle(VisualStyle.ABSTRACT);
         oldReq.setStatus(RequestStatus.PENDING);
         oldReq.setCreatedAt(LocalDateTime.now().minusHours(2));
         entityManager.persistAndFlush(oldReq);
@@ -84,7 +85,7 @@ public class GenerationRequestRepositoryTest {
         newReq.setFatigueLevel(2);
         newReq.setStressDuration(2);
         newReq.setCoffeeAmount(2);
-        newReq.setVisualStyle("COMIC");
+        newReq.setVisualStyle(VisualStyle.COMIC);
         newReq.setStatus(RequestStatus.PENDING);
         newReq.setCreatedAt(LocalDateTime.now().minusMinutes(10));
         entityManager.persistAndFlush(newReq);

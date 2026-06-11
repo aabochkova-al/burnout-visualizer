@@ -73,7 +73,7 @@ public class GenerationService {
         request.setFatigueLevel(dto.getFatigueLevel());
         request.setStressDuration(dto.getStressDuration());
         request.setCoffeeAmount(dto.getCoffeeAmount());
-        request.setVisualStyle(dto.getVisualStyle());
+        request.setVisualStyle(VisualStyle.fromString(dto.getVisualStyle()));
         request.setStatus(RequestStatus.PENDING);
         request.setCreatedAt(LocalDateTime.now());
         return requestRepository.save(request);
@@ -82,8 +82,7 @@ public class GenerationService {
     @Async("taskExecutor")
     public CompletableFuture<Void> generateImageAsync(GenerationRequest request, GenerationRequestDto dto) {
         try {
-            VisualStyle style = VisualStyle.fromString(dto.getVisualStyle());
-            PromptBuilder builder = promptBuilders.getOrDefault(style, promptBuilders.get(VisualStyle.ABSTRACT));
+            PromptBuilder builder = promptBuilders.getOrDefault(request.getVisualStyle(), promptBuilders.get(VisualStyle.ABSTRACT));
             String prompt = builder.buildPrompt(dto);
             System.out.println("Prompt: " + prompt);
 
