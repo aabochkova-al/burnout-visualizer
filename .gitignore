@@ -25,3 +25,5 @@ application-secrets.yml
 # Uploaded images
 uploads/
 application-secrets.yml
+.DS_Store
+**/.DS_Store
